@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <rect x="20" y="20" width="160" height="160" rx="20" ry="20" fill="#4CAF50"/>
+  <path d="M90 70H110V90H90ZM110 100H90V120H110ZM90 130H110V150H90Z" fill="#FFF"/>
+  <path d="M130 70H150V90H130ZM150 100H130V120H150ZM130 130H150V150H130Z" fill="#FFF"/>
+  <path d="M70 70H50V90H70ZM50 100H70V120H50ZM70 130H50V150H70Z" fill="#FFF"/>
+  <text x="100" y="170" text-anchor="middle" font-family="Arial, sans-serif" font-size="48" fill="#FFF" font-weight="bold">TODO</text>
+</svg>
