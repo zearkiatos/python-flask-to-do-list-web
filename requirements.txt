@@ -3,3 +3,4 @@ python-dotenv
 flask-bootstrap
 flask-testing
 flask-wtf
+blinker

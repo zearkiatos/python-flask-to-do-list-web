@@ -11,20 +11,11 @@
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
-    </button>
-    <a class="navbar-brand" href="{{url_for('index')}}">
-      <img
-        src="{{ url_for('static', filename='images/todo3.svg') }}"
-        style="max-width: 48px"
-        alt="Dinogeek logo"
-      />
-    </a>
   </div>
 
   <div class="navbar-collapse collapse">
     <ul class="nav navbar-nav">
-      <li><a href="{{ url_for('index')}}">Go to Index</a></li>
-      <li><a href="{{ url_for('login')}}">Login</a></li>
+      <li><a href="{{ url_for('auth.login')}}">Login</a></li>
       <li><a href="https://pedrocapriles.io" target="_blank">My profile</a></li>
     </ul>
   </div>

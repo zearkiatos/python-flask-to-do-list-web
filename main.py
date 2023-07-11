@@ -1,6 +1,5 @@
-from flask import render_template, session, flash, redirect, url_for, abort
+from flask import render_template
 from app import create_app
-from app.forms.LoginForm import LoginForm
 import unittest
 
 app = create_app()
@@ -27,26 +26,26 @@ def not_found(error):
 def internal_server_error(error):
     return render_template('500.html', error=error)
 
-@app.route("/login", methods=['GET', 'POST'])
-def login():
-    try:
-        login_form = LoginForm()
-        username = session.get('username')
-        context = {
-            'login_form': login_form,
-            'username': username
-        }
+# @app.route("/login", methods=['GET', 'POST'])
+# def login():
+#     try:
+#         login_form = LoginForm()
+#         username = session.get('username')
+#         context = {
+#             'login_form': login_form,
+#             'username': username
+#         }
 
-        if login_form.validate_on_submit():
-            username = login_form.username.data
-            session['username'] = username
+#         if login_form.validate_on_submit():
+#             username = login_form.username.data
+#             session['username'] = username
 
-            flash('User saved successful')
-            return redirect(url_for('login'))
+#             flash('User saved successful')
+#             return redirect(url_for('login'))
 
-        return render_template("login.html", **context)
-    except Exception:
-        abort(INTERNAL_SERVER_ERROR)
+#         return render_template("login.html", **context)
+#     except Exception:
+#         abort(INTERNAL_SERVER_ERROR)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=4000)
