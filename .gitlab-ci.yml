@@ -1,0 +1,58 @@
+image: python:alpine3.9
+stages:
+  - install
+  - test
+  - docker
+
+install-dependencies:
+  stage: install
+  script:
+    - apk add g++ jpeg-dev zlib-dev libjpeg make
+    - make install
+  artifacts:
+    expire_in: 1hr
+    paths:
+      - node_modules/
+  cache:
+    paths:
+      - node_modules/
+
+test-app:
+  stage: test
+  dependencies:
+    - install-dependencies
+  script:
+    - echo "Deploy a review app 🛠"
+    - touch .env
+    - echo "FLASK_ENV=${FLASK_ENV}" > .env
+    - echo "FLASK_APP=${FLASK_APP}" >> .env
+    - echo "FLASK_DEBUG=${FLASK_DEBUG}" >> .env
+    - echo "SUPER_SECRET=${SUPER_SECRET}"
+    - export FLASK_ENV=${FLASK_ENV}
+    - export FLASK_APP=${FLASK_APP}
+    - export FLASK_DEBUG=${FLASK_DEBUG}
+    - export SUPER_SECRET=${SUPER_SECRET}
+    - echo "Testing the app 🧪"
+    - flask test
+
+build-docker:
+  image: docker:latest
+  variables:
+    DOCKER_DRIVER: overlay
+    CRYPTOGRAPHY_DONT_BUILD_RUST: 1
+  services:
+  - docker:dind
+  stage: docker
+  environment: staging
+  cache:
+    paths:
+      - node_modules/
+  dependencies:
+    - install-dependencies
+  script:
+    - echo "Build docker 🐳"
+    - docker build . -t=python-flask-to-do-list-web:gitlab-ci-build-${CI_PIPELINE_IID}
+  artifacts:
+    expire_in: 1hr
+    paths:
+      - build
