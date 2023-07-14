@@ -1,0 +1,1 @@
+FROM mtlynch/firestore-emulator

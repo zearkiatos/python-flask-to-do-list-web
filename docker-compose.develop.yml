@@ -1,6 +1,15 @@
 version: "3.9"
 
 services:
+  firestore:
+    build:
+      context: .
+      dockerfile: firestore.Dockerfile
+    container_name: gcloud-firestore-emulator
+    env_file:
+      - .firestore.env
+    ports:
+      - "8200:8200"
   web:
     build:
       context: .
@@ -12,4 +21,8 @@ services:
       - .env.dev
     ports:
       - "4001:4000"
+    depends_on:
+      - firestore
+    links:
+      - firestore
     tty: true
