@@ -1,5 +1,5 @@
 from flask_testing import TestCase
-from flask import current_app
+from flask import current_app, url_for
 from app import create_app
 
 
@@ -15,3 +15,8 @@ class MainTest(TestCase):
 
     def test_app_in_test_mode(self):
         self.assertTrue(current_app.config['TESTING'])
+
+    def test_home_get(self):
+        response = self.client.get(url_for('home'))
+
+        self.assert200(response)
