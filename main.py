@@ -1,7 +1,6 @@
-from flask import render_template, abort
+from flask import render_template, abort, redirect, url_for
 from app import create_app
 import unittest
-from app.firestore_service import get_users, get_todos
 
 app = create_app()
 
@@ -18,20 +17,10 @@ def home():
     except Exception:
         abort(INTERNAL_SERVER_ERROR)
 
+
 @app.route("/")
 def index():
-    users = get_users()
-    user_id = ''
-
-    for user in users:
-        user_id = user.id
-        print(user_id)
-        print(user.to_dict()["password"])
-        todos = get_todos(user_id=user_id)
-        for todo in todos:
-            print(todo.to_dict()['description'])
-
-    return "Hello World! 👋 🌎 Flask 🌶️"
+    return redirect(url_for('auth.login'))
 
 
 @app.cli.command()
