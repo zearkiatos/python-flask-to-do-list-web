@@ -1,4 +1,5 @@
 from flask import render_template, abort, redirect, url_for
+from flask_login import login_required
 from app import create_app
 import unittest
 
@@ -9,6 +10,7 @@ INTERNAL_SERVER_ERROR = 500
 
 
 @app.route("/home", methods=['GET'])
+@login_required
 def home():
     try:
         context = {}
