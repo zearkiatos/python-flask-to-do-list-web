@@ -1,6 +1,7 @@
 from flask import render_template, abort, redirect, url_for
-from flask_login import login_required
+from flask_login import login_required, current_user
 from app import create_app
+from app.firestore_service import get_todos
 import unittest
 
 app = create_app()
@@ -13,7 +14,14 @@ INTERNAL_SERVER_ERROR = 500
 @login_required
 def home():
     try:
-        context = {}
+        user = current_user
+        todos = get_todos(user.id)
+        print(user)
+        context = {
+            "username": user.username,
+            "todos": todos
+        }
+        print(user)
 
         return render_template('home.html', **context)
     except Exception:
