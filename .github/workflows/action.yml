@@ -1,0 +1,40 @@
+name: Python CI
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: 
+      name: staging
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9.12' 
+    - name: Create .env
+      run: |
+        touch .env &&
+        echo "FLASK_ENV=${FLASK_ENV}" > .env
+        echo "FLASK_APP=${FLASK_APP}" >> .env
+        echo "FLASK_DEBUG=${FLASK_DEBUG}" >> .env
+        echo "SUPER_SECRET=${SUPER_SECRET}"
+        export FLASK_ENV=${FLASK_ENV}
+        export FLASK_APP=${FLASK_APP}
+        export FLASK_DEBUG=${FLASK_DEBUG}
+        export SUPER_SECRET=${SUPER_SECRET}
+      env:
+        FLASK_ENV: ${{ secrets.FLASK_ENV }}
+        FLASK_APP: ${{secrets.FLASK_APP}}
+        FLASK_DEBUG: ${{secrets.FLASK_DEBUG}}
+        SUPER_SECRET: ${{secrets.SUPER_SECRET}}
+    - name: Install dependencies
+      run: make install
+    - name: Run tests 🧪
+      run: flask test
+    - name: Generate build number
+      run: echo "The build number $GITHUB_RUN_NUMBER 🏗"
+    - name: Build docker 🐳
+      run: docker build . -t=python-flask-to-do-list-web:github-build-$GITHUB_RUN_NUMBER

@@ -1,0 +1,8 @@
+flask
+python-dotenv
+flask-bootstrap
+flask-testing
+flask-wtf
+blinker
+firebase-admin
+flask-login

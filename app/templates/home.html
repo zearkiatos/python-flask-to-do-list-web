@@ -1,0 +1,25 @@
+{% extends 'base.html' %} {% block title %} {{ super() }} Welcome {% endblock %}
+{% import 'bootstrap/wtf.html' as wtf %} {% block content %}
+{% import 'macros.html' as macros %}
+<div class="container">
+  {% if username %}
+  <h1>Welcome, {{username}}</h1>
+  <section class="container">
+    <header>
+      <h2>Create a new todo</h2>
+    </header>
+    {{wtf.quick_form(todo_form)}}
+  </section>
+  <article>
+    <header>
+      <h2>Todos 📋</h2>
+    </header>
+    <ul class="list-group">
+      {% for todo in todos %} {{ macros.render_todo(todo, delete_todo_form, update_todo_form) }} {% endfor %}
+    </ul>
+  </article>
+  {% else %}
+  <h2>Sorry you will need a valid user</h2>
+  {% endif %}
+</div>
+{% endblock %}
