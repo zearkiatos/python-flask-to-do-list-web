@@ -1,7 +1,7 @@
 from flask import render_template, abort, redirect, url_for, flash
 from flask_login import login_required, current_user
 from app import create_app
-from app.forms.TodoForm import TodoForm, DeleteTodoForm
+from app.forms.TodoForm import TodoForm, DeleteTodoForm, UpdateTodoForm
 from app.firestore_service import get_todos, post_todo
 import unittest
 
@@ -14,17 +14,19 @@ INTERNAL_SERVER_ERROR = 500
 @app.route("/home", methods=['GET', 'POST'])
 @login_required
 def home():
-    try:
+    # try:
         user = current_user
         todos = get_todos(user.id)
         todo_form = TodoForm()
         delete_todo_form = DeleteTodoForm()
+        update_todo_form = UpdateTodoForm()
 
         context = {
             "username": user.username,
             "todos": todos,
             "todo_form": todo_form,
-            "delete_todo_form": delete_todo_form
+            "delete_todo_form": delete_todo_form,
+            "update_todo_form": update_todo_form
         }
 
         if todo_form.validate_on_submit():
@@ -34,8 +36,8 @@ def home():
             return redirect(url_for('home'))
 
         return render_template('home.html', **context)
-    except Exception:
-        abort(INTERNAL_SERVER_ERROR)
+    # except Exception:
+    #     abort(INTERNAL_SERVER_ERROR)
 
 
 @app.route("/")
