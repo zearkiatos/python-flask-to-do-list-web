@@ -3,6 +3,7 @@ from flask_bootstrap import Bootstrap
 from flask_login import LoginManager
 from .config import Config
 from .auth import auth
+from .todos import todos
 from .repositories.user_repository import UserRepository
 
 login_manager = LoginManager()
@@ -23,5 +24,6 @@ def create_app():
     login_manager.init_app(app)
 
     app.register_blueprint(auth)
+    app.register_blueprint(todos)
 
     return app

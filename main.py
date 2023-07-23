@@ -1,7 +1,7 @@
 from flask import render_template, abort, redirect, url_for, flash
 from flask_login import login_required, current_user
 from app import create_app
-from app.forms.TodoForm import TodoForm
+from app.forms.TodoForm import TodoForm, DeleteTodoForm
 from app.firestore_service import get_todos, post_todo
 import unittest
 
@@ -18,16 +18,20 @@ def home():
         user = current_user
         todos = get_todos(user.id)
         todo_form = TodoForm()
+        delete_todo_form = DeleteTodoForm()
 
         context = {
             "username": user.username,
             "todos": todos,
-            "todo_form": todo_form
+            "todo_form": todo_form,
+            "delete_todo_form": delete_todo_form
         }
 
         if todo_form.validate_on_submit():
             post_todo(user.id, todo_form.description.data)
             flash('The todo was created successfuly!')
+
+            return redirect(url_for('home'))
 
         return render_template('home.html', **context)
     except Exception:

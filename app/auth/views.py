@@ -1,4 +1,4 @@
-from flask import render_template, session, redirect, flash, url_for
+from flask import render_template, redirect, flash, url_for
 from werkzeug.security import generate_password_hash
 from . import auth
 from flask_login import login_user, login_required, logout_user

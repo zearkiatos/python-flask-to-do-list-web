@@ -1,6 +1,6 @@
 {% extends 'base.html' %} {% block title %} {{ super() }} Welcome {% endblock %}
-{% import 'bootstrap/wtf.html' as wtf %}
-{% block content %}
+{% import 'bootstrap/wtf.html' as wtf %} {% block content %}
+{% import 'macros.html' as macros %}
 <div class="container">
   {% if username %}
   <h1>Welcome, {{username}}</h1>
@@ -14,10 +14,8 @@
     <header>
       <h2>Todos 📋</h2>
     </header>
-    <ul>
-      {%for todo in todos %}
-      <li><strong>Description: </strong>{{todo.to_dict()['description']}}</li>
-      {% endfor %}
+    <ul class="list-group">
+      {% for todo in todos %} {{ macros.render_todo(todo, delete_todo_form) }} {% endfor %}
     </ul>
   </article>
   {% else %}
