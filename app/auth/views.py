@@ -30,7 +30,6 @@ def login():
                 user_data = UserData(user.id, username=user.to_dict()[
                                      'name'], password=user.to_dict()['password'])
                 userFound = User(user_data)
-                print(userFound)
                 login_user(userFound)
                 break
         if login_success:

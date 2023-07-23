@@ -14,10 +14,6 @@ def get_users():
     return db.collection('users').get()
 
 
-def get_todos(user_id):
-    return db.collection('users').document(user_id).collection('todos').get()
-
-
 def get_user(user_id):
     return db.collection('users').document(user_id).get()
 
@@ -28,4 +24,13 @@ def post_user(new_user_data):
     db.collection('users').add({
         "name": new_user_data.username,
         "password": new_user_data.password
+    })
+
+def get_todos(user_id):
+    return db.collection('users').document(user_id).collection('todos').get()
+
+def post_todo(user_id, description):
+    todos_collection_ref = db.collection('users').document(user_id).collection('todos')
+    todos_collection_ref.add({
+        'description': description
     })

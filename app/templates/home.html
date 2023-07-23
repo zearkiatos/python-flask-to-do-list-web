@@ -1,21 +1,27 @@
 {% extends 'base.html' %} {% block title %} {{ super() }} Welcome {% endblock %}
+{% import 'bootstrap/wtf.html' as wtf %}
 {% block content %}
 <div class="container">
-{% if username %}
-<h1>Welcome, {{username}}</h1>
-<article>
+  {% if username %}
+  <h1>Welcome, {{username}}</h1>
+  <section class="container">
     <header>
-        <h2>Todos 📋</h2>
+      <h2>Create a new todo</h2>
+    </header>
+    {{wtf.quick_form(todo_form)}}
+  </section>
+  <article>
+    <header>
+      <h2>Todos 📋</h2>
     </header>
     <ul>
-        {%for todo in todos %}
-        <li><strong>Description: </strong>{{todo.to_dict()['description']}}</li>
-        {% endfor %}
+      {%for todo in todos %}
+      <li><strong>Description: </strong>{{todo.to_dict()['description']}}</li>
+      {% endfor %}
     </ul>
-
-</article>
-{% else %}
-<h2>Sorry you will need a valid user</h2>
-{% endif %}
+  </article>
+  {% else %}
+  <h2>Sorry you will need a valid user</h2>
+  {% endif %}
 </div>
 {% endblock %}
